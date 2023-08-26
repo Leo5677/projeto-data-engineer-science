@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IMPACTA - Projeto</title>
+    <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+  </head>
+
+  <body>
+    <section class="loading-overlay">
+      <div class="loader"></div>
+    </section>
+
+    <section class="home">
+      <div class="home-welcome" id="home-welcome">
+        <b class="welcome-fixed-text">
+          Data Engineering</b>
+        <br />
+        <b class="welcome-fixed-text">
+          & Data Science:
+        </b>
+        <br /> 
+        <span class="welcome-text" id="welcome-text"></span>
+      </div>
+
+      <div class="home-charts">
+        <div class="chart-five-years">{{ chart_five_years | safe }}</div>
+        <div class="chart-thirty-days">{{ chart_thirty_days | safe }}</div>
+      </div>
+    </section>
+  </body>
+</html>
