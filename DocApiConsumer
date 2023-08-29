@@ -1,0 +1,173 @@
+API Consumer 
+Sistema de Consumo de API para extração de índice histórico de moeda BITCOIN, e  Persistência em Banco NoSQL MongoDB com Geração de Gráficos
+Versão
+1.0.0
+Descrição
+Este sistema foi desenvolvido em Node.js e Python para realizar as seguintes tarefas:
+    • Consumir dados de uma API externa.
+    • Persistir os dados em um banco de dados NoSQL MongoDB.
+    • Gerar gráficos a partir dos dados armazenados usando Python e Pandas.
+      
+Requisitos de Instalação
+    • Node.js (versão 5.7)
+    • MongoDB (ou outro banco NoSQL)
+    • Python (versão 3.11)
+    • Biblioteca Pandas (versão 2.0.3)
+
+Configuração
+    • Clone o repositório do projeto.
+    • Instale as dependências do Node.js usando npm install.
+    • Instale as dependências do Python usando pip install -r requirements.txt (se houver).
+    • Configure as variáveis de ambiente necessárias, como URLs da API e informações de conexão com o banco de dados NoSQL.
+
+Tecnologias Utilizadas
+    • ﻿blinker==1.6.2
+    • idna==3.4
+    • pymongo==3.11.0
+    • certifi==2023.7.22
+    • itsdangerous==2.1.2
+    • pyparsing==3.0.9
+    • charset-normalizer==3.2.0
+    • Jinja2==3.1.2
+    • python-dateutil==2.8.2
+    • click==8.1.7
+    • kiwisolver==1.4.5
+    • pytz==2023.3
+    • colorama==0.4.6
+
+    • MarkupSafe==2.1.3
+    • requests==2.31.0
+    • contourpy==1.1.0
+    • matplotlib==3.7.2
+    • simplejson==3.19.1
+    • cycler==0.11.0
+
+    • numpy==1.25.2
+    • six==1.16.0
+    • DateTime==5.2
+    • packaging==23.1
+    • tenacity==8.2.3
+    • Flask==2.3.3
+    • pandas==2.0.3
+    • tzdata==2023.3
+    • fonttools==4.42.1
+    • Pillow==10.0.0
+    • urllib3==2.0.4
+    • forex-python==1.8
+    • plotly==5.16.1
+    • Werkzeug==2.3.7
+    • zope.interface==6.0
+
+
+
+
+Uso
+    • Inicie o servidor Node.js usando npm start.
+    • O sistema consumirá os dados da API e persisti-los no banco de dados.
+      
+
+Estrutura de Diretórios
+    • Models
+    • statics: contém os arquivos de JS e CSS;
+    • Template: contém o home.html
+    • README.md
+    • app.py
+    • requirements.txt
+
+API
+Api da CoinCodex (Base histórica 5 anos)
+https://coincodex.com/page/api/  
+ApiCoinApi (Base histórica 30 dias)
+https://rest.coinapi.io/v1/ohlcv/KRAKENFTS_PERP_BTC_USD/history?period_id=1DAY&time_start=
+
+# GERA UM GRÁFICO COM O VALOR DO BTC DOS ÚLTIMOS 5 ANOS
+def lastFiveYearsChart():
+    # DATA DE HOJE E DE 5 ANOS ATRÁS
+    date_now = datetime.now().strftime("%Y-%m-%d")
+    date_five_years = (datetime.now() - timedelta(days=5 * 365)).strftime("%Y-%m-%d")
+
+
+
+    # API - BITCOIN
+    url = f"https://coincodex.com/api/coincodex/get_coin_history/BTC/{date_five_years}/{date_now}/1"
+    response = requests.get(url)
+
+def lastThirtyDaysChart():
+    # DATA DE HOJE / 30 DIAS ATRÁS
+    date_thirty_days = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    
+    # API - BITCOIN
+    url = f"https://rest.coinapi.io/v1/ohlcv/KRAKENFTS_PERP_BTC_USD/history? period_id=1DAY&time_start={date_thirty_days}"
+    headers = {"X-CoinAPI-Key": "AF522BD8-5A06-409A-9AC9-FAABE8C7FA1D"}
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+Banco de Dados NoSQL
+MongoDB
+
+Geração de Gráficos
+Após o consumo da API efetuamos a conversão dos dados para um formato correto, retornando em JSON. Após, inserimos os dados JSON em um collection utilizando o método update_one, recuperando os registro para DATAFRAME.
+Exemplos de Uso
+   # MONGODB - RECUPERA OS REGISTROS E CRIA A LISTA DE DATA E DE VALORES
+    date_list = [pd.to_datetime(entry["timestamp"], unit="s") for entry in collection.find({})]
+    values_list = [entry["price"] * dolar_real for entry in collection.find({})]
+
+    # REALIZA A INSTANCIAÇÃO DO PANDAS COM OS DADOS
+    df = pd.DataFrame({
+        'Data': date_list,
+        'Valor': values_list
+    })
+
+    # REALIZA A INSTANCIAÇÃO DO GRÁFICO E PERSONALIZA O LAYOUT
+    chart = go.Figure([go.Scatter(x=df['Data'], y=df['Valor'], mode='lines')])
+    chart.update_layout(
+        title="Histórico do Valor do Bitcoin - Últimos 5 Anos",
+        xaxis_title='Ano',
+        yaxis_title='Valor',
+        showlegend=False,
+        height=600,
+        width=1200
+    )
+
+ # CONVERTE DÓLAR PARA REAL
+    dolar_real = CurrencyRates().get_rate("USD", "BRL")
+
+    # MONGODB - RECUPERA OS REGISTROS E CRIA AS LISTAS PARA O CANDLESTICK
+    time_period_start = [entry["time_period_start"] for entry in collection.find({})]
+    price_open = [entry["price_open"] * dolar_real for entry in collection.find({})]
+    price_high = [entry["price_high"] * dolar_real for entry in collection.find({})]
+    price_low = [entry["price_low"] * dolar_real for entry in collection.find({})]
+    price_close = [entry["price_close"] * dolar_real for entry in collection.find({})]
+
+    # REALIZA A INSTANCIAÇÃO DO GRÁFICO E PERSONALIZA O LAYOUT
+    chart = go.Figure(data=[go.Candlestick(
+        x=time_period_start,
+        open=price_open,
+        high=price_high,
+        low=price_low,
+        close=price_close
+    )])
+    chart.update_layout(
+        title='Histórico do Valor do Bitcoin - Últimos 30 Dias',
+        xaxis_title='Período',
+        yaxis_title='Valor',
+        height=600,
+        width=1200
+    )
+
+Autores
+    • Leonardo Cirqueira Valensoela
+    • Thiago Neves Pedroso
+    • Rafael Onassis Nicolau
+
+Licença
+Este projeto está com licença de software livre.
+
+
+
+
+
+
+
+
+
