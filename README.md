@@ -1,6 +1,4 @@
-## Leonardo Cirqueira Valensoela
-## Rafael Onassis Nicolau
-## Thiago Neves Pedroso
+## Leonardo Cirqueira Valensoela | Rafael Onassis Nicolau | Thiago Neves Pedroso
 
 ### Ingestão de dados: Construir uma aplicação que ingere dados do CoinMarketCap, os transforma e os carrega em um armazenamento de dados.
 ### Modelagem de dados e design de banco de dados: Construa um modelo de dados e projete um esquema de banco de dados para o armazenamento.
