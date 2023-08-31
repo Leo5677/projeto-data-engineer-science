@@ -56,6 +56,8 @@ https://rest.coinapi.io/v1/ohlcv/KRAKENFTS_PERP_BTC_USD/history? period_id=1DAY&
 
 ### Banco de Dados NoSQL
 MongoDB
+![image](https://github.com/Leo5677/projeto-data-engineer-science/assets/48198740/f4226fcc-b54c-4b33-b3d8-0ef5ef178e44)
+![image](https://github.com/Leo5677/projeto-data-engineer-science/assets/48198740/09ca7089-03fc-4a53-8b18-968ce7e4e7ba)
 
 ### Geração de Gráficos
 Com os dados do MongoDB, realizarmos diversos list comprehension para traduzir o dado para a biblioteca pandas e para a montagem do gráfico:
