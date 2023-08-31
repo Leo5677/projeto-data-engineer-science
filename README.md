@@ -62,9 +62,12 @@ Com os dados do MongoDB, realizarmos diversos list comprehension para traduzir o
 
 Últimos Cinco Anos
 ![image](https://github.com/Leo5677/projeto-data-engineer-science/assets/48198740/9775b61e-b82e-48ff-857b-8cc1f963d1e8)
+![image](https://github.com/Leo5677/projeto-data-engineer-science/assets/48198740/0d9152b8-d028-4888-a1a8-8a22c84de8a8)
+
 
 Últimos Trinta Dias
 ![image](https://github.com/Leo5677/projeto-data-engineer-science/assets/48198740/afad260c-ae1f-4c50-bc3a-d31a76f70042)
+![image](https://github.com/Leo5677/projeto-data-engineer-science/assets/48198740/517fcdb2-c992-457f-bd52-41486e2f1a2c)
 
 ### Autores
 •	Leonardo Cirqueira Valensoela
